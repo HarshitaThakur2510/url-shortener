@@ -1,0 +1,13 @@
+POST http://localhost:8080/api/urls
+content-Type: application/json
+
+{
+  "originalUrl": "https://google.com"
+}
+###
+GET http://localhost:8080/cqbjFl
+
+###
+DELETE http://localhost:8080/api/urls/cqbjFl
+###
+GET http://localhost:8080/api/urls/details/cqbjFl
