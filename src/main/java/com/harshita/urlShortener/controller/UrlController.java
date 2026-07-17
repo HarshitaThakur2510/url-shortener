@@ -33,7 +33,6 @@ public class UrlController {
     public ResponseEntity<UrlDetailsResponse> getUrlDetails(
             @PathVariable String shortCode) {
 
-        System.out.println("Details API called: " + shortCode);
 
         UrlDetailsResponse response =
                 urlService.getUrlDetails(shortCode);
