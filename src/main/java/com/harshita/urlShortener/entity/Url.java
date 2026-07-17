@@ -1,12 +1,12 @@
 package com.harshita.urlShortener.entity;
 
 import jakarta.persistence.*;
-import lombok.*; //for cleaner code lombok is used
+import lombok.*; 
 
 import java.time.LocalDateTime;
 
-@Entity // converts java class into a database table
-@Table(name = "urls") // explicitly telling to create a table called urls
+@Entity 
+@Table(name = "urls") 
 @Getter
 @Setter
 @NoArgsConstructor
@@ -14,19 +14,17 @@ import java.time.LocalDateTime;
 @Builder
 public class Url {
 
-    @Id //SQL equivalent to PRIMARY KEY
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // automatically generates IDs
+    @Id 
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Long id;
 
-    @Column(nullable = false) // clm cannot contain null value
+    @Column(nullable = false) 
     private String originalUrl;
 
-    @Column(nullable = false, unique = true) //clm cam not have null and duplicate values
+    @Column(nullable = false, unique = true) 
     private String shortCode;
 
     @Column(nullable = false)
-    private Integer clickCount; // used Integer instead of int because int doesnt stores null values, so mostly Integer is used
-
+    private Integer clickCount; 
     @Column(nullable = false)
-    private LocalDateTime createdAt; // time when url is created
-}
+    private LocalDateTime createdAt; 
