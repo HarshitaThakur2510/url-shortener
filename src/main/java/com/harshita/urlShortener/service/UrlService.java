@@ -11,23 +11,22 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
-@Service //tells spring that this class contains business logic
+@Service 
 public class UrlService {
 
-    private final UrlRepository urlRepository; // we created variable urlRepository which stores UrlRepository's obj reference
+    private final UrlRepository urlRepository; 
     private final Base62Generator base62Generator;
 
-    public UrlService(UrlRepository urlRepository,  Base62Generator base62Generator) { // Dependency injection ... we are connection service with repository
+    public UrlService(UrlRepository urlRepository,  Base62Generator base62Generator) { 
         this.urlRepository = urlRepository;
         this.base62Generator = base62Generator;
     }
 
     public UrlResponse createShortUrl(UrlRequest request) {
 
-        String shortCode = generateUniqueShortCode();// generates unique short code
-
-        Url url = Url.builder() // creates new Url obj
-                .originalUrl(request.getOriginalUrl())  //equivalent to url.setOriginalUrl(...);
+        String shortCode = generateUniqueShortCode();
+        Url url = Url.builder()
+                .originalUrl(request.getOriginalUrl())  
                 .shortCode(shortCode)
                 .clickCount(0)
                 .createdAt(LocalDateTime.now())
@@ -41,29 +40,25 @@ public class UrlService {
         );
     }
 
-    // method which generates unique short code
     private String generateUniqueShortCode() {
 
         String shortCode;
 
         do {
             shortCode = base62Generator.generateShortCode();
-        } while (urlRepository.findByShortCode(shortCode).isPresent()); // if code found then it returns true which means value is duplicate so this loop runs and creates value until we get unique value
-
+        } while (urlRepository.findByShortCode(shortCode).isPresent()); 
         return shortCode;
     }
 
-    // returns org url if short code exists or handles error
     public String getOriginalUrl(String shortCode) {
 
-        Url url = urlRepository.findByShortCode(shortCode) // looks for url if exists then return org url
+        Url url = urlRepository.findByShortCode(shortCode) 
                 .orElseThrow(() ->
-                        new UrlNotFoundException("Short URL not found"));// throws this msg if url doesnt exists
+                        new UrlNotFoundException("Short URL not found"));
 
-        url.setClickCount(url.getClickCount() + 1); // inc counter
+        url.setClickCount(url.getClickCount() + 1);
 
-        urlRepository.save(url); // updates the row ... if entity already has id then it updates else it inserts
-
+        urlRepository.save(url); 
         return url.getOriginalUrl();
     }
 
@@ -88,7 +83,6 @@ public class UrlService {
 
     }
 
-    // Repository finds url if it exists then it is deleted
     public void deleteUrl(String shortCode){
 
         Url url = urlRepository.findByShortCode(shortCode)
