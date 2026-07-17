@@ -20,7 +20,6 @@ public class RedirectController {
     @GetMapping("/{shortCode}")
     public ResponseEntity<Void> redirect(@PathVariable String shortCode) {
 
-//        System.out.println("Received: " + shortCode);
 
         String originalUrl = urlService.getOriginalUrl(shortCode);
 
